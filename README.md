@@ -1,6 +1,6 @@
-# ShopBot BD Frontend
+# eSellMate Frontend
 
-A production-ready frontend starter for **ShopBot BD**, an AI-powered web order manager for Facebook and WhatsApp sellers. It uses Next.js App Router, TypeScript, Tailwind CSS, Redux Toolkit, RTK Query, React Hook Form, Zod and Recharts.
+A production-ready frontend starter for **eSellMate**, an AI-powered web order manager for Facebook and WhatsApp sellers. It uses Next.js App Router, TypeScript, Tailwind CSS, Redux Toolkit, RTK Query, React Hook Form, Zod and Recharts.
 
 ## What is included
 
