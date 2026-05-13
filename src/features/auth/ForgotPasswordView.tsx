@@ -19,13 +19,31 @@ export function ForgotPasswordView() {
   }
 
   return (
-    <AuthCard title="Reset password" subtitle="Frontend is ready for Laravel reset-password flow.">
+    <AuthCard
+      title="Reset password"
+      subtitle="Frontend is ready for Laravel reset-password flow."
+    >
       <form onSubmit={handleSubmit} className="space-y-4">
-        <Input value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email address" />
-        {sent ? <p className="rounded-2xl bg-emerald-50 px-4 py-3 text-sm text-emerald-700">Reset instruction sent in demo mode.</p> : null}
-        <Button className="w-full" disabled={isLoading}>Send reset link</Button>
+        <Input
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder="Email address"
+        />
+        {sent ? (
+          <p className="rounded-2xl bg-emerald-50 px-4 py-3 text-sm text-emerald-700">
+            Reset instruction sent.
+          </p>
+        ) : null}
+        <Button className="w-full" disabled={isLoading}>
+          Send reset link
+        </Button>
       </form>
-      <Link className="mt-5 block text-center text-sm font-semibold text-brand-700" href="/login">Back to login</Link>
+      <Link
+        className="mt-5 block text-center text-sm font-semibold text-brand-700"
+        href="/login"
+      >
+        Back to login
+      </Link>
     </AuthCard>
   );
 }

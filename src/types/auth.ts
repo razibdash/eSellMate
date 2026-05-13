@@ -13,18 +13,21 @@ export type PermissionCode =
   | "manage_settings"
   | "use_ai_tools"
   | "manage_subscription"
+  | "manage_storefront"
   | "super_admin";
 
-export type UserRole = "owner" | "manager" | "staff" | "delivery" | "viewer" | "super_admin";
+export type UserRole = "owner" | "manager" | "staff" | "delivery" | "delivery_staff" | "viewer" | "super_admin";
 
 export type User = {
   id: ID;
   name: string;
-  email: string;
+  email?: string | null;
   phone?: string;
   avatar?: string;
+  avatar_url?: string | null;
   role: UserRole;
   permissions: PermissionCode[];
+  is_super_admin?: boolean;
   status: "active" | "inactive";
 };
 
@@ -50,4 +53,16 @@ export type RegisterPayload = {
 export type AuthResponse = {
   user: User;
   token: string;
+};
+
+export type ProfilePayload = {
+  name: string;
+  email?: string | null;
+  phone?: string | null;
+};
+
+export type ChangePasswordPayload = {
+  current_password: string;
+  password: string;
+  password_confirmation: string;
 };

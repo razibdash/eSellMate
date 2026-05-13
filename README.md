@@ -15,8 +15,7 @@ A production-ready frontend starter for **eSellMate**, an AI-powered web order m
 - AI: Caption generator, reply generator, insights, history
 - Settings: Business, invoice, WhatsApp templates, staff, roles/permissions, subscription, billing
 - Super Admin: Dashboard, businesses, users, plans, subscriptions, logs, AI usage
-- Demo data mode by default
-- Real Laravel API mode ready through RTK Query
+- Laravel API integration through RTK Query
 
 ## Run locally
 
@@ -28,23 +27,15 @@ npm run dev
 
 Open `http://localhost:3000`.
 
-Demo login:
-
-```txt
-Email: owner@shopbotbd.test
-Password: password
-```
-
-## Switch from demo data to Laravel API
+## Laravel API
 
 Set this in `.env.local`:
 
 ```env
-NEXT_PUBLIC_API_MODE=real
 NEXT_PUBLIC_API_URL=http://localhost:8000/api
 ```
 
-The RTK Query endpoints are already aligned with the Laravel REST API plan from the documentation. When your backend is ready, keep the same endpoint names or update files inside `src/store/api/`.
+The RTK Query endpoints call the Laravel backend directly and normalize the API envelope returned by `ApiController`.
 
 ## Important folders
 
@@ -55,18 +46,18 @@ src/components           Reusable UI, layout, tables, cards, modals
 src/store                Redux store, RTK Query APIs, slices
 src/lib                  Helpers, constants, formatters, permission utilities
 src/types                TypeScript domain types
-src/data                 Demo data and mock API adapter
 src/docs                 Frontend implementation notes and API integration guide
 ```
 
-## Real API response recommendation
+## API Response Shape
 
-For easiest integration, return JSON like this from Laravel:
+The frontend expects Laravel responses like this:
 
 ```json
 {
+  "success": true,
+  "message": "Success",
   "data": [],
-  "meta": {}
 }
 ```
 
@@ -78,8 +69,4 @@ For single resource:
 }
 ```
 
-The current code also works with direct array/object responses, but the `data` wrapper is recommended for Laravel API Resources.
-
-## Notes
-
-This package is frontend only. It contains mock/demo data so the UI can run before backend development. Later, connect your Laravel API by changing environment mode to `real`.
+Paginated Laravel responses are unwrapped to the inner `data` array for table views.

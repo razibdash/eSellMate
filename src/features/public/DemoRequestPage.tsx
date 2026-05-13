@@ -10,7 +10,7 @@ export function DemoRequestPage() {
   return (
     <PublicShell>
       <main className="page-container max-w-3xl py-14">
-        <PageHeader title="Request a free demo" description="This form is frontend-ready. Connect it to Laravel later or use it as a demo lead form." />
+        <PageHeader title="Request a free demo" description="Send your business details and the team will follow up." />
         <Card>
           <div className="grid gap-4 sm:grid-cols-2">
             <Input placeholder="Your name" />
@@ -21,7 +21,7 @@ export function DemoRequestPage() {
           <Textarea className="mt-4" placeholder="Tell us what you sell and your main order problem." />
           <div className="mt-5 flex gap-3">
             <Button>Submit demo request</Button>
-            <Link href="/login"><Button variant="outline">Open demo dashboard</Button></Link>
+            <Link href="/login"><Button variant="outline">Open dashboard</Button></Link>
           </div>
         </Card>
       </main>

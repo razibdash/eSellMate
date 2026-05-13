@@ -10,10 +10,13 @@ import { MetricCard } from "@/components/common/MetricCard";
 import { PageHeader } from "@/components/common/PageHeader";
 import { PageLoader } from "@/components/common/LoadingSpinner";
 import { formatCurrency, formatDate } from "@/lib/formatters";
+import { usePermission } from "@/hooks/usePermission";
 import { useGetDashboardReportQuery } from "@/store/api/reportApi";
 
 export function DashboardView() {
   const { data, isLoading } = useGetDashboardReportQuery();
+  const canCreateOrders = usePermission("create_orders");
+  const canUseAi = usePermission("use_ai_tools");
   if (isLoading || !data) return <PageLoader />;
   const summary = data.summary;
 
@@ -21,12 +24,12 @@ export function DashboardView() {
     <div>
       <PageHeader
         title="Business Dashboard"
-        description="Quick view of today’s orders, sales, low-stock alerts, AI insights and recent activity."
-        actions={<><Link href="/orders/create"><Button>Create order</Button></Link><Link href="/ai/caption"><Button variant="outline">Generate caption</Button></Link></>}
+        description="Quick view of today's orders, sales, low-stock alerts, AI insights and recent activity."
+        actions={<>{canCreateOrders ? <Link href="/orders/create"><Button>Create order</Button></Link> : null}{canUseAi ? <Link href="/ai/caption"><Button variant="outline">Generate caption</Button></Link> : null}</>}
       />
       <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-        <MetricCard title="Today orders" value={summary.today_orders} hint="Live demo data" icon={ShoppingCart} />
-        <MetricCard title="Today sales" value={formatCurrency(summary.today_sales)} hint="+12% than yesterday" icon={Wallet} />
+        <MetricCard title="Today orders" value={summary.today_orders} icon={ShoppingCart} />
+        <MetricCard title="Today sales" value={formatCurrency(summary.today_sales)} icon={Wallet} />
         <MetricCard title="Monthly sales" value={formatCurrency(summary.monthly_sales)} icon={TrendingUp} />
         <MetricCard title="Low stock" value={summary.low_stock_count} hint="Restock needed" icon={Warehouse} />
       </div>
@@ -70,7 +73,7 @@ export function DashboardView() {
           <div className="space-y-3">
             {data.recent_orders.map((order) => (
               <Link href={`/orders/${order.id}`} key={order.id} className="flex items-center justify-between rounded-2xl border border-slate-100 p-4 transition hover:bg-slate-50">
-                <div><p className="font-semibold text-slate-900">{order.order_number}</p><p className="text-sm text-slate-500">{order.customer_name_snapshot} · {formatDate(order.created_at)}</p></div>
+                <div><p className="font-semibold text-slate-900">{order.order_number}</p><p className="text-sm text-slate-500">{order.customer_name_snapshot} - {formatDate(order.created_at)}</p></div>
                 <div className="text-right"><p className="font-bold text-slate-950">{formatCurrency(order.total_amount)}</p><Badge value={order.order_status} /></div>
               </Link>
             ))}

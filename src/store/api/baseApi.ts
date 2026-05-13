@@ -1,6 +1,12 @@
-import { createApi, fetchBaseQuery, type BaseQueryFn, type FetchArgs, type FetchBaseQueryError } from "@reduxjs/toolkit/query/react";
+import {
+  createApi,
+  fetchBaseQuery,
+  type BaseQueryFn,
+  type FetchArgs,
+  type FetchBaseQueryError,
+} from "@reduxjs/toolkit/query/react";
 import type { RootState } from "../store";
-import { demoBaseQuery } from "@/data/mockApi";
+import { getStorefrontSubdomain } from "@/lib/storefront";
 
 const realBaseQuery = fetchBaseQuery({
   baseUrl: process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api",
@@ -8,26 +14,63 @@ const realBaseQuery = fetchBaseQuery({
   prepareHeaders: (headers, { getState }) => {
     const token = (getState() as RootState).auth.token;
     headers.set("Accept", "application/json");
-    if (!(headers.get("Content-Type"))) headers.set("Content-Type", "application/json");
     if (token) headers.set("Authorization", `Bearer ${token}`);
+    const subdomain = getStorefrontSubdomain();
+    if (subdomain) headers.set("X-Store-Subdomain", subdomain);
     return headers;
-  }
+  },
 });
 
-/**
- * Hybrid base query.
- * - mock mode: uses local demo data and works without Laravel backend.
- * - real mode: calls Laravel API using the same endpoint contracts.
- */
-const hybridBaseQuery: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError> = async (args, api, extraOptions) => {
-  const mode = process.env.NEXT_PUBLIC_API_MODE || "mock";
-  if (mode === "real") return realBaseQuery(args, api, extraOptions);
-  return demoBaseQuery(args, api, extraOptions);
+type LaravelEnvelope<T = unknown> = {
+  success?: boolean;
+  message?: string;
+  data?: T;
+  errors?: unknown;
+};
+
+type LaravelPaginator<T = unknown> = {
+  data: T[];
+  current_page?: number;
+  per_page?: number;
+  total?: number;
+};
+
+function unwrapLaravelResponse(payload: unknown) {
+  if (!payload || typeof payload !== "object" || !("data" in payload))
+    return payload;
+
+  const envelope = payload as LaravelEnvelope;
+  const data = envelope.data;
+
+  if (
+    data &&
+    typeof data === "object" &&
+    Array.isArray((data as LaravelPaginator).data)
+  ) {
+    return (data as LaravelPaginator).data;
+  }
+
+  return data;
+}
+
+const baseQuery: BaseQueryFn<
+  string | FetchArgs,
+  unknown,
+  FetchBaseQueryError
+> = async (args, api, extraOptions) => {
+  const result = await realBaseQuery(args, api, extraOptions);
+
+  if (result.error) return result;
+
+  return {
+    ...result,
+    data: unwrapLaravelResponse(result.data),
+  };
 };
 
 export const baseApi = createApi({
   reducerPath: "shopbotApi",
-  baseQuery: hybridBaseQuery,
+  baseQuery,
   tagTypes: [
     "Auth",
     "Business",
@@ -43,7 +86,9 @@ export const baseApi = createApi({
     "Subscription",
     "MessageTemplate",
     "Notification",
-    "SuperAdmin"
+    "SuperAdmin",
+    "Storefront",
+    "StorefrontPublic",
   ],
-  endpoints: () => ({})
+  endpoints: () => ({}),
 });

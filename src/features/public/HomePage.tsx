@@ -24,7 +24,7 @@ export function HomePage() {
             <h1 className="text-5xl font-black tracking-tight text-slate-950 sm:text-6xl">Order হারাবে না, customer miss হবে না.</h1>
             <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-600">{siteConfig.description} Built for Bangladeshi small sellers who sell through Facebook, WhatsApp, Instagram and phone calls.</p>
             <div className="mt-8 flex flex-wrap gap-3">
-              <Link href="/login"><Button className="px-6 py-3">Open demo dashboard <ArrowRight className="h-4 w-4" /></Button></Link>
+              <Link href="/login"><Button className="px-6 py-3">Open dashboard <ArrowRight className="h-4 w-4" /></Button></Link>
               <Link href="/features"><Button variant="outline" className="px-6 py-3">See features</Button></Link>
             </div>
             <div className="mt-8 grid gap-3 sm:grid-cols-3">
@@ -34,7 +34,7 @@ export function HomePage() {
           <Card className="relative overflow-hidden p-6">
             <div className="absolute right-0 top-0 h-40 w-40 rounded-full bg-brand-200 blur-3xl" />
             <div className="relative rounded-3xl bg-slate-950 p-5 text-white shadow-glow">
-              <div className="flex items-center justify-between"><p className="font-bold">Fresh Achar House</p><span className="rounded-full bg-emerald-400/20 px-3 py-1 text-xs text-emerald-200">Live demo</span></div>
+              <div className="flex items-center justify-between"><p className="font-bold">ShopBot BD</p><span className="rounded-full bg-emerald-400/20 px-3 py-1 text-xs text-emerald-200">Live API</span></div>
               <div className="mt-6 grid gap-3 sm:grid-cols-2">
                 <div className="rounded-2xl bg-white/10 p-4"><p className="text-sm text-white/60">Today sales</p><p className="mt-2 text-2xl font-black">৳12,640</p></div>
                 <div className="rounded-2xl bg-white/10 p-4"><p className="text-sm text-white/60">Orders</p><p className="mt-2 text-2xl font-black">58</p></div>

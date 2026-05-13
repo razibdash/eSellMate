@@ -1,4 +1,5 @@
 import type { ID, Status } from "./common";
+import type { Storefront } from "./storefront";
 
 export type Business = {
   id: ID;
@@ -17,6 +18,7 @@ export type Business = {
   invoice_prefix: string;
   invoice_footer?: string;
   status: Status;
+  storefront?: Storefront;
 };
 
 export type BusinessSettings = Pick<

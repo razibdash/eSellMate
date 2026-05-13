@@ -4,7 +4,7 @@ import type { AuthResponse, AuthState, User } from "@/types/auth";
 const initialState: AuthState = {
   user: null,
   token: null,
-  isAuthenticated: false
+  isAuthenticated: false,
 };
 
 const authSlice = createSlice({
@@ -15,19 +15,27 @@ const authSlice = createSlice({
       state.user = action.payload.user;
       state.token = action.payload.token;
       state.isAuthenticated = true;
-      if (typeof window !== "undefined") localStorage.setItem("shopbot_auth", JSON.stringify(action.payload));
+      if (typeof window !== "undefined")
+        localStorage.setItem("shopbot_auth", JSON.stringify(action.payload));
     },
     setUser(state, action: PayloadAction<User>) {
       state.user = action.payload;
       state.isAuthenticated = Boolean(state.token);
+      if (typeof window !== "undefined" && state.token) {
+        localStorage.setItem(
+          "shopbot_auth",
+          JSON.stringify({ user: action.payload, token: state.token }),
+        );
+      }
     },
     logout(state) {
       state.user = null;
       state.token = null;
       state.isAuthenticated = false;
-      if (typeof window !== "undefined") localStorage.removeItem("shopbot_auth");
-    }
-  }
+      if (typeof window !== "undefined")
+        localStorage.removeItem("shopbot_auth");
+    },
+  },
 });
 
 export const { setCredentials, setUser, logout } = authSlice.actions;

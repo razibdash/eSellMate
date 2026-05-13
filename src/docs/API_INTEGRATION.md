@@ -1,13 +1,12 @@
 # Laravel API Integration Guide
 
-This frontend uses RTK Query. Demo-data mode is enabled by default.
+This frontend uses RTK Query and calls the Laravel API directly.
 
-## 1. Enable real API mode
+## 1. Configure API URL
 
 Create `.env.local`:
 
 ```env
-NEXT_PUBLIC_API_MODE=real
 NEXT_PUBLIC_API_URL=http://localhost:8000/api
 ```
 
@@ -56,6 +55,8 @@ PUT    /products/{id}
 DELETE /products/{id}
 POST   /products/{id}/image
 GET    /products/low-stock
+GET    /stock/movements
+GET    /stock/low-stock
 ```
 
 ### Customer
@@ -119,10 +120,12 @@ GET  /subscription/invoices
 
 ## 3. Laravel response format
 
-Recommended:
+Expected:
 
 ```json
 {
+  "success": true,
+  "message": "Success",
   "data": {}
 }
 ```
@@ -131,16 +134,18 @@ For list:
 
 ```json
 {
-  "data": [],
-  "meta": {
+  "success": true,
+  "message": "Success",
+  "data": {
+    "data": [],
     "total": 100,
-    "page": 1,
+    "current_page": 1,
     "per_page": 20
   }
 }
 ```
 
-Currently the demo mode returns direct objects/arrays. If your Laravel API uses `data` wrappers, update `transformResponse` inside files in `src/store/api/`.
+The base API unwraps this response shape for feature views.
 
 ## 4. Auth
 
@@ -178,12 +183,3 @@ src/store/api/aiApi.ts
 src/store/api/settingsApi.ts
 src/store/api/superAdminApi.ts
 ```
-
-## 6. Demo data location
-
-```txt
-src/data/demoData.ts
-src/data/mockApi.ts
-```
-
-Remove or keep mock mode for testing after real API is ready.

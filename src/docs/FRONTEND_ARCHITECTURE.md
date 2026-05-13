@@ -19,7 +19,7 @@
 3. Reusable components stay in `src/components`.
 4. Server data is handled by RTK Query in `src/store/api`.
 5. Global client state is handled by Redux slices in `src/store/slices`.
-6. Demo-data mode is isolated in `src/data`.
+6. Laravel API response handling is centralized in `src/store/api/baseApi.ts`.
 7. Business constants and helpers stay in `src/lib`.
 8. TypeScript domain models stay in `src/types`.
 
@@ -49,7 +49,6 @@
 
 - Add form-level Zod validation in feature forms before launch.
 - Add toast notifications after mutation success or error.
-- Add pagination once the Laravel API returns paginated data.
+- Add pagination controls where table views need page navigation.
 - Add file upload support for product images and business logo using `FormData`.
 - Add route-level permission guards for restricted pages.
-- Keep `mock` mode for UI testing and demos.

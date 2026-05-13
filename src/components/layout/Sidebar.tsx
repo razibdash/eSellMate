@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { X } from "lucide-react";
 import { dashboardNavigation, superAdminNavigation } from "@/config/navigation";
 import { siteConfig } from "@/config/site";
-import { hasPermission } from "@/lib/permissions";
+import { hasPermission, isSuperAdmin } from "@/lib/permissions";
 import { cn } from "@/lib/utils";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { setSidebarOpen } from "@/store/slices/uiSlice";
@@ -15,6 +15,7 @@ export function Sidebar() {
   const dispatch = useAppDispatch();
   const open = useAppSelector((state) => state.ui.sidebarOpen);
   const user = useAppSelector((state) => state.auth.user);
+  const canAccessSuperAdmin = isSuperAdmin(user);
 
   return (
     <>
@@ -34,30 +35,35 @@ export function Sidebar() {
         </div>
 
         <nav className="mt-7 flex-1 space-y-6 overflow-y-auto pr-1">
-          {dashboardNavigation.map((group) => (
-            <div key={group.title}>
-              <p className="px-3 text-xs font-semibold uppercase tracking-[0.18em] text-slate-400">{group.title}</p>
-              <div className="mt-2 space-y-1">
-                {group.items.filter((item) => hasPermission(user, item.permission)).map((item) => {
-                  const active = pathname === item.href || pathname.startsWith(`${item.href}/`);
-                  const Icon = item.icon;
-                  return (
-                    <Link
-                      key={item.href}
-                      href={item.href}
-                      onClick={() => dispatch(setSidebarOpen(false))}
-                      className={cn("flex items-center justify-between rounded-2xl px-3 py-2.5 text-sm font-semibold transition", active ? "bg-slate-950 text-white shadow-glow" : "text-slate-600 hover:bg-slate-100 hover:text-slate-950")}
-                    >
-                      <span className="flex items-center gap-3"><Icon className="h-5 w-5" />{item.title}</span>
-                      {item.badge ? <span className="rounded-full bg-brand-100 px-2 py-0.5 text-[10px] font-bold text-brand-800">{item.badge}</span> : null}
-                    </Link>
-                  );
-                })}
-              </div>
-            </div>
-          ))}
+          {dashboardNavigation.map((group) => {
+            const visibleItems = group.items.filter((item) => hasPermission(user, item.permission));
+            if (!visibleItems.length) return null;
 
-          {hasPermission(user, "super_admin") ? (
+            return (
+              <div key={group.title}>
+                <p className="px-3 text-xs font-semibold uppercase tracking-[0.18em] text-slate-400">{group.title}</p>
+                <div className="mt-2 space-y-1">
+                  {visibleItems.map((item) => {
+                    const active = pathname === item.href || pathname.startsWith(`${item.href}/`);
+                    const Icon = item.icon;
+                    return (
+                      <Link
+                        key={item.href}
+                        href={item.href}
+                        onClick={() => dispatch(setSidebarOpen(false))}
+                        className={cn("flex items-center justify-between rounded-2xl px-3 py-2.5 text-sm font-semibold transition", active ? "bg-slate-950 text-white shadow-glow" : "text-slate-600 hover:bg-slate-100 hover:text-slate-950")}
+                      >
+                        <span className="flex items-center gap-3"><Icon className="h-5 w-5" />{item.title}</span>
+                        {item.badge ? <span className="rounded-full bg-brand-100 px-2 py-0.5 text-[10px] font-bold text-brand-800">{item.badge}</span> : null}
+                      </Link>
+                    );
+                  })}
+                </div>
+              </div>
+            );
+          })}
+
+          {canAccessSuperAdmin ? (
             <div>
               <p className="px-3 text-xs font-semibold uppercase tracking-[0.18em] text-slate-400">Super Admin</p>
               <div className="mt-2 space-y-1">

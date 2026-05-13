@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { Bell, LogOut, Menu, Search } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/Button";
@@ -33,13 +34,17 @@ export function Header() {
             <Bell className="h-5 w-5" />
             <span className="absolute right-2 top-2 h-2 w-2 rounded-full bg-rose-500" />
           </button>
-          <div className="hidden items-center gap-3 rounded-2xl border border-slate-200 bg-white px-3 py-2 shadow-sm sm:flex">
-            <div className="grid h-9 w-9 place-items-center rounded-xl bg-brand-100 text-sm font-bold text-brand-800">{user?.name?.slice(0, 2).toUpperCase() ?? "SB"}</div>
+          <Link href="/profile" className="hidden items-center gap-3 rounded-2xl border border-slate-200 bg-white px-3 py-2 shadow-sm transition hover:bg-slate-50 sm:flex">
+            {user?.avatar_url ? (
+              <img src={user.avatar_url} alt={user.name} className="h-9 w-9 rounded-xl object-cover" />
+            ) : (
+              <div className="grid h-9 w-9 place-items-center rounded-xl bg-brand-100 text-sm font-bold text-brand-800">{user?.name?.slice(0, 2).toUpperCase() ?? "SB"}</div>
+            )}
             <div>
               <p className="text-sm font-semibold text-slate-900">{user?.name ?? "Demo Owner"}</p>
               <p className="text-xs text-slate-500">{user?.role ?? "owner"}</p>
             </div>
-          </div>
+          </Link>
           <Button variant="ghost" onClick={handleLogout} className="px-3">
             <LogOut className="h-4 w-4" />
             <span className="hidden sm:inline">Logout</span>

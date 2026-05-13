@@ -10,6 +10,7 @@ import {
   LayoutDashboard,
   MessageCircle,
   Package,
+  UserCircle,
   Receipt,
   Settings,
   ShieldCheck,
@@ -65,7 +66,9 @@ export const dashboardNavigation: NavGroup[] = [
   {
     title: "Settings",
     items: [
+      { title: "Profile", href: "/profile", icon: UserCircle },
       { title: "Business", href: "/settings/business", icon: Building2, permission: "manage_settings" },
+      { title: "Storefront", href: "/settings/storefront", icon: ShoppingCart, permission: "manage_settings" },
       { title: "WhatsApp", href: "/settings/whatsapp", icon: MessageCircle, permission: "manage_settings" },
       { title: "Staff", href: "/settings/staff", icon: Users, permission: "manage_staff" },
       { title: "Roles", href: "/settings/roles-permissions", icon: ShieldCheck, permission: "manage_staff" },
@@ -78,6 +81,11 @@ export const dashboardNavigation: NavGroup[] = [
 export const superAdminNavigation: NavItem[] = [
   { title: "Super Dashboard", href: "/super-admin/dashboard", icon: LayoutDashboard, permission: "super_admin" },
   { title: "Businesses", href: "/super-admin/businesses", icon: Building2, permission: "super_admin" },
+  { title: "Storefronts", href: "/super-admin/storefronts", icon: ShoppingCart, permission: "super_admin" },
+  { title: "Orders", href: "/super-admin/orders", icon: Receipt, permission: "super_admin" },
+  { title: "Payments", href: "/super-admin/payments", icon: CreditCard, permission: "super_admin" },
+  { title: "Products", href: "/super-admin/products", icon: Package, permission: "super_admin" },
+  { title: "Reports", href: "/super-admin/reports", icon: BarChart3, permission: "super_admin" },
   { title: "Users", href: "/super-admin/users", icon: Users, permission: "super_admin" },
   { title: "Plans", href: "/super-admin/plans", icon: CreditCard, permission: "super_admin" },
   { title: "Subscriptions", href: "/super-admin/subscriptions", icon: Receipt, permission: "super_admin" },

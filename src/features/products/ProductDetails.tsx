@@ -7,14 +7,24 @@ import { Badge } from "@/components/ui/Badge";
 import { PageHeader } from "@/components/common/PageHeader";
 import { PageLoader } from "@/components/common/LoadingSpinner";
 import { formatCurrency } from "@/lib/formatters";
-import { useGetProductQuery } from "@/store/api/productApi";
+import { usePermission } from "@/hooks/usePermission";
+import { useDeleteProductMutation, useGetProductQuery } from "@/store/api/productApi";
+import { useRouter } from "next/navigation";
 
 export function ProductDetails({ id }: { id: string }) {
+  const router = useRouter();
   const { data, isLoading } = useGetProductQuery(id);
+  const canManageProducts = usePermission("manage_products");
+  const [deleteProduct] = useDeleteProductMutation();
+  async function remove() {
+    if (!window.confirm("Archive this product?")) return;
+    await deleteProduct(id).unwrap();
+    router.push("/products");
+  }
   if (isLoading || !data) return <PageLoader />;
   return (
     <div>
-      <PageHeader title={data.name} description={data.description} actions={<Link href={`/products/${id}/edit`}><Button>Edit product</Button></Link>} />
+      <PageHeader title={data.name} description={data.description} actions={canManageProducts ? <><Link href={`/products/${id}/edit`}><Button>Edit product</Button></Link><Button variant="danger" onClick={remove}>Delete</Button></> : null} />
       <div className="grid gap-5 lg:grid-cols-[0.8fr_1.2fr]">
         <Card><img src={data.image || "https://placehold.co/800x600"} alt={data.name} className="h-80 w-full rounded-3xl object-cover" /></Card>
         <Card className="space-y-4">

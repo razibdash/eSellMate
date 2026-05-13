@@ -26,6 +26,8 @@ export type Product = {
   low_stock_alert: number;
   unit: string;
   image?: string;
+  is_published?: boolean;
+  is_featured?: boolean;
   status: Extract<Status, "active" | "inactive" | "draft">;
 };
 
