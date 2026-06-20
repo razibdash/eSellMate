@@ -35,7 +35,7 @@ export function Sidebar() {
         </div>
 
         <nav className="mt-7 flex-1 space-y-6 overflow-y-auto pr-1">
-          {dashboardNavigation.map((group) => {
+          {!canAccessSuperAdmin && dashboardNavigation.map((group) => {
             const visibleItems = group.items.filter((item) => hasPermission(user, item.permission));
             if (!visibleItems.length) return null;
 

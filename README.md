@@ -1,23 +1,35 @@
-# eSellMate Frontend
+# eSellMate (ShopBD) — Frontend
 
-A production-ready frontend starter for **eSellMate**, an AI-powered web order manager for Facebook and WhatsApp sellers. It uses Next.js App Router, TypeScript, Tailwind CSS, Redux Toolkit, RTK Query, React Hook Form, Zod and Recharts.
+Next.js (App Router) + TypeScript + Tailwind দিয়ে বানানো ShopBD এর ফ্রন্টএন্ড। ফেসবুক/হোয়াটসঅ্যাপ সেলারদের জন্য AI-পাওয়ারড অর্ডার ম্যানেজার।
 
-## What is included
+## এখন যা যা ফিচার আছে
 
-- Public website: Home, Features, Pricing, Demo request
-- Auth: Login, Register, Forgot password
-- Onboarding: Business profile, first product, invoice setup, choose plan
-- Dashboard: KPIs, charts, low-stock alerts, AI insights, recent orders, top products
-- Products: List, create, edit, details, categories, low stock, stock movements
-- Customers: List, create, edit/profile, order history
-- Orders: List, create, details, status update, payment tracking, invoice preview, WhatsApp share
-- Reports: Sales, products, customers, payments, delivery, low-stock
-- AI: Caption generator, reply generator, insights, history
-- Settings: Business, invoice, WhatsApp templates, staff, roles/permissions, subscription, billing
-- Super Admin: Dashboard, businesses, users, plans, subscriptions, logs, AI usage
-- Laravel API integration through RTK Query
+- **পাবলিক ওয়েবসাইট** — হোম, ফিচারস, প্রাইসিং, ডেমো রিকোয়েস্ট
+- **অথেনটিকেশন** — লগইন, রেজিস্ট্রেশন, পাসওয়ার্ড রিসেট
+- **অনবোর্ডিং** — বিজনেস প্রোফাইল, প্রথম প্রোডাক্ট, ইনভয়েস সেটআপ, প্ল্যান সিলেক্ট
+- **ড্যাশবোর্ড** — KPI, চার্ট, লো-স্টক অ্যালার্ট, AI ইনসাইট, সাম্প্রতিক অর্ডার, টপ প্রোডাক্ট
+- **প্রোডাক্ট** — লিস্ট, তৈরি, এডিট, ক্যাটাগরি, স্টক মুভমেন্ট
+- **কাস্টমার** — লিস্ট, তৈরি, এডিট/প্রোফাইল, অর্ডার হিস্টোরি
+- **অর্ডার** — লিস্ট, তৈরি, স্ট্যাটাস আপডেট, পেমেন্ট ট্র্যাকিং, ইনভয়েস, হোয়াটসঅ্যাপ শেয়ার
+- **রিপোর্ট** — সেল, প্রোডাক্ট, কাস্টমার, পেমেন্ট, ডেলিভারি, লো-স্টক
+- **AI ফিচার** — ক্যাপশন/রিপ্লাই জেনারেটর, ইনসাইট, হিস্টোরি
+- **সেটিংস** — বিজনেস, ইনভয়েস, হোয়াটসঅ্যাপ টেমপ্লেট, স্টাফ, রোল/পারমিশন, সাবস্ক্রিপশন
+- **সুপার অ্যাডমিন** — সব বিজনেস, ইউজার, প্ল্যান, লগ মনিটরিং
+- **পাবলিক স্টোরফ্রন্ট/শপ** — কাস্টমার-ফেসিং প্রোডাক্ট লিস্ট, কার্ট, চেকআউট
 
-## Run locally
+## আরও যা যোগ করলে ভালো হবে
+
+- **ডার্ক মোড** — পুরো অ্যাপে থিম টগল
+- **মোবাইল অ্যাপ/PWA সাপোর্ট** — অফলাইন অ্যাক্সেস ও পুশ নোটিফিকেশন
+- **লাইভ চ্যাট/নোটিফিকেশন** — websocket দিয়ে রিয়েল-টাইম অর্ডার আপডেট
+- **মাল্টি-ভাষা (i18n)** — বাংলা/ইংরেজি টগল
+- **কুপন/ডিসকাউন্ট UI** — চেকআউটে প্রোমো কোড অপশন
+- **প্রোডাক্ট সার্চ ও ফিল্টার উন্নয়ন** — দাম, ক্যাটাগরি, স্টক ভিত্তিক ফিল্টার
+- **কাস্টমার রিভিউ/রেটিং UI**
+- **এক্সপোর্ট/প্রিন্ট** — রিপোর্ট ও ইনভয়েস PDF/Excel এক্সপোর্ট বাটন
+- **অ্যাক্সেসিবিলিটি ও পারফরম্যান্স অপটিমাইজেশন** — লেজি লোডিং, ইমেজ অপ্টিমাইজেশন
+
+## রান করার নিয়ম
 
 ```bash
 npm install
@@ -25,48 +37,8 @@ cp .env.example .env.local
 npm run dev
 ```
 
-Open `http://localhost:3000`.
-
-## Laravel API
-
-Set this in `.env.local`:
+`http://localhost:3000` এ ওপেন করুন।
 
 ```env
 NEXT_PUBLIC_API_URL=http://localhost:8000/api
 ```
-
-The RTK Query endpoints call the Laravel backend directly and normalize the API envelope returned by `ApiController`.
-
-## Important folders
-
-```txt
-src/app                  Next.js routes
-src/features             Feature-level UI and business logic
-src/components           Reusable UI, layout, tables, cards, modals
-src/store                Redux store, RTK Query APIs, slices
-src/lib                  Helpers, constants, formatters, permission utilities
-src/types                TypeScript domain types
-src/docs                 Frontend implementation notes and API integration guide
-```
-
-## API Response Shape
-
-The frontend expects Laravel responses like this:
-
-```json
-{
-  "success": true,
-  "message": "Success",
-  "data": [],
-}
-```
-
-For single resource:
-
-```json
-{
-  "data": {}
-}
-```
-
-Paginated Laravel responses are unwrapped to the inner `data` array for table views.
