@@ -88,6 +88,22 @@ export type OrderPayload = {
   items: Omit<OrderItem, "id" | "order_id" | "line_total">[];
 };
 
+export type AddPaymentPayload = {
+  amount: number;
+  payment_method: PaymentMethod;
+  transaction_id?: string;
+  paid_at?: string;
+  note?: string;
+};
+
+export type AddPaymentResult = {
+  payment: Payment;
+  total_amount: number;
+  paid_amount: number;
+  due_amount: number;
+  is_paid_full: boolean;
+};
+
 export type Invoice = {
   id: ID;
   business_id: ID;

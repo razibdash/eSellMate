@@ -48,7 +48,6 @@ export function OrderDetails({ id }: { id: string }) {
         amount: Number(payment.amount),
         payment_method: payment.payment_method,
         transaction_id: payment.transaction_id || undefined,
-        payment_status: "paid",
       },
     }).unwrap();
     setPayment({ amount: "", payment_method: "cash", transaction_id: "" });

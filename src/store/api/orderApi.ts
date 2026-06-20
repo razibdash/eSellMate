@@ -1,9 +1,10 @@
 import type {
+  AddPaymentPayload,
+  AddPaymentResult,
   Invoice,
   Order,
   OrderPayload,
   OrderStatus,
-  Payment,
   PaymentStatus,
   DeliveryStatus,
 } from "@/types/order";
@@ -88,15 +89,15 @@ export const orderApi = baseApi.injectEndpoints({
       invalidatesTags: ["Order", "Report"],
     }),
     addPayment: builder.mutation<
-      Payment,
-      { id: string | number; body: Partial<Payment> }
+      AddPaymentResult,
+      { id: string | number; body: AddPaymentPayload }
     >({
       query: ({ id, body }) => ({
         url: `/orders/${id}/payments`,
         method: "POST",
         body,
       }),
-      invalidatesTags: ["Order", "Report"],
+      invalidatesTags: (_result, _error, { id }) => [{ type: "Order", id }, "Order", "Report"],
     }),
     getInvoice: builder.query<Invoice, string | number>({
       query: (id) => `/orders/${id}/invoice`,
