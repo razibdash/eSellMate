@@ -25,6 +25,8 @@ export const statusColorMap: Record<string, string> = {
   partial: "bg-amber-50 text-amber-700 ring-amber-200",
   paid: "bg-emerald-50 text-emerald-700 ring-emerald-200",
   refunded: "bg-slate-100 text-slate-700 ring-slate-200",
+  sent: "bg-emerald-50 text-emerald-700 ring-emerald-200",
+  failed: "bg-rose-50 text-rose-700 ring-rose-200",
   info: "bg-sky-50 text-sky-700 ring-sky-200",
   warning: "bg-amber-50 text-amber-700 ring-amber-200",
   critical: "bg-rose-50 text-rose-700 ring-rose-200"

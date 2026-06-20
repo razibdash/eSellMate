@@ -1,4 +1,5 @@
 import type { ID } from "./common";
+import type { SmsLog } from "./sms";
 
 export type OrderSource = "facebook" | "whatsapp" | "instagram" | "phone" | "website" | "walkin" | "other";
 export type OrderStatus = "pending" | "confirmed" | "processing" | "packed" | "shipped" | "delivered" | "cancelled" | "returned";
@@ -70,6 +71,7 @@ export type Order = {
   items: OrderItem[];
   payments?: Payment[];
   histories?: OrderStatusHistory[];
+  sms_logs?: SmsLog[];
 };
 
 export type OrderPayload = {

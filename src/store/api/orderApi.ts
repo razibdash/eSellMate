@@ -8,6 +8,7 @@ import type {
   PaymentStatus,
   DeliveryStatus,
 } from "@/types/order";
+import type { SmsLog } from "@/types/sms";
 import { baseApi } from "./baseApi";
 
 export type OrderFilters = {
@@ -99,6 +100,10 @@ export const orderApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: (_result, _error, { id }) => [{ type: "Order", id }, "Order", "Report"],
     }),
+    resendSms: builder.mutation<SmsLog, string | number>({
+      query: (id) => ({ url: `/orders/${id}/resend-sms`, method: "POST" }),
+      invalidatesTags: (_result, _error, id) => [{ type: "Order", id }, "Order"],
+    }),
     getInvoice: builder.query<Invoice, string | number>({
       query: (id) => `/orders/${id}/invoice`,
       providesTags: ["Invoice"],
@@ -123,6 +128,7 @@ export const {
   useUpdatePaymentStatusMutation,
   useUpdateDeliveryStatusMutation,
   useAddPaymentMutation,
+  useResendSmsMutation,
   useGetInvoiceQuery,
   useGenerateInvoiceMutation,
 } = orderApi;

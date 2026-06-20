@@ -18,6 +18,7 @@ import { usePermission } from "@/hooks/usePermission";
 import { useGetBusinessQuery } from "@/store/api/businessApi";
 import { useAddPaymentMutation, useCancelOrderMutation, useGetOrderQuery, useUpdateDeliveryStatusMutation, useUpdateOrderStatusMutation, useUpdatePaymentStatusMutation } from "@/store/api/orderApi";
 import type { OrderItem, PaymentMethod } from "@/types/order";
+import { SmsLogHistory } from "./SmsLogHistory";
 
 export function OrderDetails({ id }: { id: string }) {
   const router = useRouter();
@@ -116,6 +117,9 @@ export function OrderDetails({ id }: { id: string }) {
           <Summary label="Paid" value={formatCurrency(order.paid_amount)} />
           <Summary label="Due" value={formatCurrency(order.due_amount)} />
         </Card>
+      </div>
+      <div className="mt-5">
+        <SmsLogHistory orderId={id} />
       </div>
     </div>
   );
