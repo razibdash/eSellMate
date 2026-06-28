@@ -11,13 +11,14 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const pathname = usePathname();
   const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
+  const isSuperAdmin = useAppSelector((state) => Boolean(state.auth.user?.is_super_admin));
   const isBillingPath =
     pathname.startsWith("/subscription") ||
     pathname.startsWith("/settings/subscription") ||
     pathname.startsWith("/settings/billing") ||
     pathname.startsWith("/super-admin");
   const { data: subscription } = useGetSubscriptionQuery(undefined, {
-    skip: !isAuthenticated,
+    skip: !isAuthenticated || isSuperAdmin,
   });
 
   useEffect(() => {
@@ -26,7 +27,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   }, [isAuthenticated, router]);
 
   useEffect(() => {
-    if (!subscription || isBillingPath) return;
+    if (!subscription || isBillingPath || isSuperAdmin) return;
     const trialExpired =
       subscription.status === "trial" &&
       subscription.trial_ends_at &&

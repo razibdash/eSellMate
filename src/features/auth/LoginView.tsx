@@ -23,7 +23,7 @@ export function LoginView() {
     event.preventDefault();
     const result = await login({ email, password }).unwrap();
     dispatch(setCredentials(result));
-    router.push("/dashboard");
+    router.push(result.user.is_super_admin ? "/super-admin/dashboard" : "/dashboard");
   }
 
   return (
