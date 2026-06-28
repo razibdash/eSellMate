@@ -28,6 +28,8 @@ export type Product = {
   image?: string;
   is_published?: boolean;
   is_featured?: boolean;
+  average_rating?: number;
+  review_count?: number;
   status: Extract<Status, "active" | "inactive" | "draft">;
 };
 

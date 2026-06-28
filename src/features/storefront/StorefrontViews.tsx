@@ -40,6 +40,8 @@ import type {
   StorefrontSettingsJson,
   StorefrontSettingsPayload,
 } from "@/types/storefront";
+import { ReviewForm } from "./ReviewForm";
+import { ReviewList, StarRating } from "./ReviewList";
 import { useStorefrontCart } from "./useStorefrontCart";
 
 type NormalizedStorefrontSettings = {
@@ -616,6 +618,15 @@ export function StorefrontProductDetails({ slug }: { slug: string }) {
               {product.category?.name || "Catalog item"}
             </p>
             <h1 className="mt-2 text-4xl font-black text-slate-950">{product.name}</h1>
+            <div className="mt-3 flex items-center gap-2">
+              <StarRating rating={Number(product.average_rating || 0)} />
+              <span className="text-sm font-semibold text-slate-700">
+                {Number(product.average_rating || 0).toFixed(1)}
+              </span>
+              <span className="text-sm text-slate-400">
+                ({product.review_count || 0} review{product.review_count === 1 ? "" : "s"})
+              </span>
+            </div>
             <p className="mt-4 text-base leading-7 text-slate-600">
               {product.description || "This product is available for public checkout from the storefront."}
             </p>
@@ -641,6 +652,14 @@ export function StorefrontProductDetails({ slug }: { slug: string }) {
             </Link>
           </div>
         </Card>
+      </div>
+
+      <div className="mt-10 grid gap-8 lg:grid-cols-[1.1fr_0.9fr]">
+        <div className="space-y-4">
+          <h2 className="text-2xl font-black text-slate-950">Customer reviews</h2>
+          <ReviewList productId={product.id} />
+        </div>
+        <ReviewForm productId={product.id} />
       </div>
     </div>
   );

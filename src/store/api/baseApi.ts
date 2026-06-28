@@ -91,6 +91,7 @@ export const baseApi = createApi({
     "StorefrontPublic",
     "Coupon",
     "FlashSale",
+    "Review",
   ],
   endpoints: () => ({}),
 });
