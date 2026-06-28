@@ -92,6 +92,7 @@ export const baseApi = createApi({
     "Coupon",
     "FlashSale",
     "Review",
+    "Chat",
   ],
   endpoints: () => ({}),
 });

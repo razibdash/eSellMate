@@ -40,6 +40,7 @@ import type {
   StorefrontSettingsJson,
   StorefrontSettingsPayload,
 } from "@/types/storefront";
+import { CustomerOrderChat } from "@/features/chat/CustomerOrderChat";
 import { ReviewForm } from "./ReviewForm";
 import { ReviewList, StarRating } from "./ReviewList";
 import { useStorefrontCart } from "./useStorefrontCart";
@@ -954,6 +955,7 @@ export function StorefrontPaymentStatusView({ reference }: { reference: string }
           </Link>
         </div>
       </Card>
+      <CustomerOrderChat orderReference={data.public_reference} />
     </div>
   );
 }

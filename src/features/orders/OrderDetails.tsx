@@ -18,6 +18,7 @@ import { usePermission } from "@/hooks/usePermission";
 import { useGetBusinessQuery } from "@/store/api/businessApi";
 import { useAddPaymentMutation, useCancelOrderMutation, useGetOrderQuery, useUpdateDeliveryStatusMutation, useUpdateOrderStatusMutation, useUpdatePaymentStatusMutation } from "@/store/api/orderApi";
 import type { OrderItem, PaymentMethod } from "@/types/order";
+import { SellerOrderChat } from "@/features/chat/SellerOrderChat";
 import { SmsLogHistory } from "./SmsLogHistory";
 
 export function OrderDetails({ id }: { id: string }) {
@@ -121,6 +122,7 @@ export function OrderDetails({ id }: { id: string }) {
       <div className="mt-5">
         <SmsLogHistory orderId={id} />
       </div>
+      <SellerOrderChat orderId={order.id} />
     </div>
   );
 }
